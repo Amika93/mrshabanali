@@ -65,9 +65,8 @@ def update_list():
 
 def update_files():
     mobileFiles = os.listdir('mrshabanali/mobilePages')
-    mobileNames = []
-    for f in mobileFiles:
-        mobileNames.append(int(f[:-4]))
+    mobileNames = [int(f.replace(".html", "")) for f in mobileFiles]
+
     if mobileNames:
         lastMobileFileNumber = max(mobileNames)
     else:
@@ -91,7 +90,7 @@ def save_page(lines, l, i):
     response = get(str(lines[l]), headers=headers)
     response.encoding = 'utf-8'
     cleanHTML = BeautifulSoup(response.text, 'html.parser')
-    fileName = 'mrshabanali/mobilePages/' + str(i) + '.txt'
+    fileName = 'mrshabanali/mobilePages/%0.6d.html' % i
     with open(fileName, 'w', encoding="utf-8") as file:
         file.write(str(cleanHTML))
         print(fileName + ' added to mobilePages!')
