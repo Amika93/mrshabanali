@@ -80,18 +80,21 @@ def update_files():
         elif lastMobileFileNumber < len(lines):
             i = lastMobileFileNumber + 1
             for l in range(lastMobileFileNumber, len(lines)):
-                response = get(str(lines[l]), headers=headers)
-                response.encoding = 'utf-8'
-                cleanHTML = BeautifulSoup(response.text, 'html.parser')
-                fileName = 'mrshabanali/mobilePages/' + str(i) + '.txt'
-                with open(fileName, 'w', encoding="utf-8") as file:
-                    file.write(str(cleanHTML))
-                    print(fileName + ' added to mobilePages!')
+                save_page(lines, l, i)
                 i += 1
-
             print('Done!')
         else:
             print('No New Mobile Files!')
+
+
+def save_page(lines, l, i):
+    response = get(str(lines[l]), headers=headers)
+    response.encoding = 'utf-8'
+    cleanHTML = BeautifulSoup(response.text, 'html.parser')
+    fileName = 'mrshabanali/mobilePages/' + str(i) + '.txt'
+    with open(fileName, 'w', encoding="utf-8") as file:
+        file.write(str(cleanHTML))
+        print(fileName + ' added to mobilePages!')
 
 
 if __name__ == '__main__':
